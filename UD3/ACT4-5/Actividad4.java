@@ -27,7 +27,7 @@ public class Actividad4 {
             Visualizar(new URI("http://docs.oracle.com/javase/7"));
             Visualizar(new URI("http://docs.oracle.com/javase/7/docs/api/java/net/URL.html"));
         } catch (Exception e) {
-            // handle the error
+            // manejo error
             System.err.println("Error al procesar URI: " + e.getMessage());
         }
     }

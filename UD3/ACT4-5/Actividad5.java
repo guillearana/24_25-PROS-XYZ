@@ -9,14 +9,14 @@ public class Actividad5 {
             System.out.println("Conexión con www.vitoria-gasteiz.com");
             System.out.println("==========================");
 
-            // create a client
-            HttpClient client = HttpClient.newHttpClient();
+            // crear cliente
+            HttpClient cliente = HttpClient.newHttpClient();
 
-            // build a request
-            HttpRequest request = HttpRequest.newBuilder(new URI("http://www.vitoria-gasteiz.com")).build();
+            // crear peticion
+            HttpRequest peticion = HttpRequest.newBuilder(new URI("http://www.vitoria-gasteiz.com")).build();
 
-            // send request and receive response
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            // enviar peticion y recivirla
+            HttpResponse<String> response = cliente.send(peticion, HttpResponse.BodyHandlers.ofString());
 
             // print info
             System.out.println("\tMétodo toString():" + response.toString());
