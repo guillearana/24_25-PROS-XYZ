@@ -1,47 +1,39 @@
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class Actividad5 {
-	
-	public void main(String[] args) {
-		try {
-			URL url = new URL("www.vitoria-gasteiz.org");//Creamos la url 
-			URLConnection con = url.openConnection();//Creamos la conexión
-			visualizarConexion(con);//Llamamos a la función para ver los métodos
-		} 
-		catch (IOException e) {
-			System.out.println(e.getMessage());
-		}		
-	}
-	
-	private void visualizarConexion(URLConnection urlConection) {
-		System.out.println("Conexión con " + urlConection.getURL().getHost());
-		System.out.println("==========================");
-		System.out.println("\t"+"Método toString(): " + urlConection.toString());
-		System.out.println("\t"+"Método getDate(): " + urlConection.getDate());
-		System.out.println("\t"+"Método getContentType(): " + urlConection.getContentType());
-		System.out.println();
-		
-		System.out.println("\t"+"Campos Cabecera con getHeaderField:");
-		System.out.println("==========================");
-		System.out.println("\t"+"Línea 1: " + urlConection.getHeaderField(0));
-		System.out.println("\t"+"Línea 2: " + urlConection.getHeaderField(1));
-		System.out.println("\t"+"Línea 3: " + urlConection.getHeaderField(2));
-		System.out.println("\t"+"Línea 4: " + urlConection.getHeaderField(3));
-		System.out.println("\t"+"Línea 5: " + urlConection.getHeaderField(4));
-		
-		System.out.println();
-		
-		System.out.println("Campos Cabecera con getHeaderFields:");
-		System.out.println("==========================");
-		System.out.println("\t"+"Keep-Alive: " + urlConection.getHeaderField("Keep-Alive"));
-		System.out.println("\t"+"null: " + urlConection.getHeaderField(null));
-		System.out.println("\t"+"Server: " + urlConection.getHeaderField("Server"));
-		System.out.println("\t"+"Connection: " + urlConection.getHeaderField("Connection"));
-		System.out.println("\t"+"Content-Length: " + urlConection.getHeaderField("Content-Length"));
-		System.out.println("\t"+"Date: " + urlConection.getHeaderField("Date"));
-		System.out.println("\t"+"Content-Type: " + urlConection.getHeaderField("Content-Type"));
-		System.out.println("\t"+"Location: " + urlConection.getHeaderField("Location"));
-	}
+    private static void VisualizarConexión() {
+        try {
+            System.out.println("Conexión con www.vitoria-gasteiz.com");
+            System.out.println("==========================");
+
+            // create a client
+            HttpClient client = HttpClient.newHttpClient();
+
+            // build a request
+            HttpRequest request = HttpRequest.newBuilder(new URI("http://www.vitoria-gasteiz.com")).build();
+
+            // send request and receive response
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            // print info
+            System.out.println("\tMétodo toString():" + response.toString());
+
+            // print status
+            System.out.println("\tMétodo getStatusCode():" + response.statusCode());
+
+            // print headers
+            System.out.println("\tMétodo getContentType():" +
+                    response.headers().firstValue("Content-Type").orElse("N/A"));
+        } catch (Exception e) {
+            // manage errors
+            System.err.println("Error en la conexión: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        VisualizarConexión();
+    }
 }
